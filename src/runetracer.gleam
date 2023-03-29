@@ -1,4 +1,5 @@
 import gleam/bool
+import gleam/io
 import gleam/list
 import gleam/order
 import gleam/result
@@ -81,6 +82,29 @@ external fn sort_ffi(
 ) -> Nil =
   "./sorting.mjs" "sort"
 
+external fn get_args() -> List(String) =
+  "./sorting.mjs" "getArgs"
+
+external fn directory_exists(String) -> Bool =
+  "./sorting.mjs" "dirExists"
+
+external fn exit(code: Int) -> Nil =
+  "./sorting.mjs" "exit"
+
 pub fn main() {
-  sort_ffi("src", sort_file)
+  let path = case get_args() {
+    [arg, ..] -> arg
+    _ -> "src/"
+  }
+
+  case directory_exists(path) {
+    False -> {
+      io.println("Directory not found: " <> path)
+      exit(1)
+      Nil
+    }
+    True -> Nil
+  }
+
+  sort_ffi(path, sort_file)
 }
