@@ -1,0 +1,15 @@
+name = "runetracer"
+version = "0.1.0"
+description = "A gleam import sorter."
+target = "javascript"
+licences = ["WTFPL"]
+repository = { type = "github", user = "lunarmagpie", repo = "runetracer" }
+links = [
+    { title = "Website", href = "https://github.com/lunarmagpie/runetracer" },
+]
+
+[dependencies]
+gleam_stdlib = "~> 0.27"
+
+[dev-dependencies]
+gleeunit = "~> 0.10"
