@@ -73,6 +73,24 @@ fn sort_imports(imports: List(String)) -> Result(List(String), Nil) {
       string.compare(x, y)
     },
   )
+  |> list.map(fn(x) {
+    let [path, ..imports] = string.split(x, "{")
+
+    imports
+    |> list.first
+    |> result.unwrap("")
+    |> string.drop_right(1)
+    |> string.split(",")
+    |> list.map(string.trim)
+    |> list.sort(string.compare)
+    |> string.join(", ")
+    |> fn(x) {
+      case x {
+        "" -> path
+        x -> path <> "{" <> x <> "}"
+      }
+    }
+  })
   |> Ok
 }
 

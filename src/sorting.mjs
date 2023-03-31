@@ -18,10 +18,22 @@ async function* getFiles(path = `./`) {
 }
 
 export async function sort(path, func) {
-  if (!path.endsWith("/")) {
+  if (!path.endsWith("/") && !path.endsWith(".gleam")) {
     path = path + "/";
   }
-  for await (const file of getFiles(path)) {
+
+  let files;
+  if (!path.endsWith(".gleam")) {
+    files = [];
+
+    for await (const file of getFiles(path)) {
+      files.push(file);
+    }
+  } else {
+    files = [{ name: path, path: "./" + path }];
+  }
+
+  for (let file of files) {
     if (!file.name.endsWith(".gleam")) {
       continue;
     }
